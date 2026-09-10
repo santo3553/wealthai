@@ -1,0 +1,16 @@
+{
+  "short_name": "WealthAI",
+  "name": "WealthAI Premium - Luxury Mobile Finance",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#120d0b",
+  "theme_color": "#120d0b",
+  "display": "standalone",
+  "orientation": "portrait"
+}
