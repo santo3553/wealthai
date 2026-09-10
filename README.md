@@ -192,7 +192,7 @@ wealthai/
 ## 💻 Local Development & Build
 
 ### Prerequisites
-- Node.js 20+ (v24 recommended)
+- Node.js 22+ (LTS)
 - Java JDK 21
 - Android SDK (API 34+)
 
