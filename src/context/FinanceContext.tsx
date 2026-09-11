@@ -6,6 +6,7 @@ interface FinanceContextType {
   transactions: Transaction[];
   addTransaction: (tx: Omit<Transaction, 'id'>) => Transaction;
   deleteTransaction: (id: string) => void;
+  clearAllTransactions: () => void;
   totalBalance: number;
   currentMonthIncome: number;
   currentMonthExpense: number;
@@ -19,7 +20,9 @@ interface FinanceContextType {
   refreshInsights: (apiKey?: string) => Promise<void>;
 }
 
-const STORAGE_KEY = 'wealthai_transactions';
+// Bumped storage key so that old demo data from previous sessions is completely cleared
+const STORAGE_KEY = 'wealthai_transactions_v2';
+const LEGACY_STORAGE_KEY = 'wealthai_transactions';
 
 const CATEGORY_COLORS: Record<CategoryName, string> = {
   Salary: '#10b981',    // Emerald
@@ -31,87 +34,13 @@ const CATEGORY_COLORS: Record<CategoryName, string> = {
   Other: '#94a3b8',     // Slate
 };
 
-export const INITIAL_TRANSACTIONS: Transaction[] = [
-  {
-    id: 'tx-1',
-    title: 'Executive Advisory Retainer',
-    amount: 18500.0,
-    type: 'income',
-    category: 'Salary',
-    date: '2026-09-10',
-    time: '09:15',
-    icon: 'Wallet',
-  },
-  {
-    id: 'tx-2',
-    title: 'Le Bernardin Private Dining',
-    amount: 1420.5,
-    type: 'expense',
-    category: 'Dining',
-    date: '2026-09-09',
-    time: '21:30',
-    icon: 'Utensils',
-  },
-  {
-    id: 'tx-3',
-    title: 'Apple Vision Pro M3 Tranche',
-    amount: 3899.0,
-    type: 'expense',
-    category: 'Tech',
-    date: '2026-09-06',
-    time: '14:20',
-    icon: 'Laptop',
-  },
-  {
-    id: 'tx-4',
-    title: 'Venture Seed Liquidity Yield',
-    amount: 9250.0,
-    type: 'income',
-    category: 'Invest',
-    date: '2026-09-04',
-    time: '11:00',
-    icon: 'TrendingUp',
-  },
-  {
-    id: 'tx-5',
-    title: 'Hermès Private Client Order',
-    amount: 4650.0,
-    type: 'expense',
-    category: 'Shopping',
-    date: '2026-09-02',
-    time: '16:45',
-    icon: 'ShoppingBag',
-  },
-  {
-    id: 'tx-6',
-    title: 'Endowment Philanthropy Contribution',
-    amount: 2500.0,
-    type: 'expense',
-    category: 'Gift',
-    date: '2026-08-28',
-    time: '10:00',
-    icon: 'Gift',
-  },
-  {
-    id: 'tx-7',
-    title: 'Private Equity Distribution',
-    amount: 24000.0,
-    type: 'income',
-    category: 'Invest',
-    date: '2026-08-15',
-    time: '15:30',
-    icon: 'TrendingUp',
-  },
-  {
-    id: 'tx-8',
-    title: 'Cloud Infrastructure Cluster',
-    amount: 1200.0,
-    type: 'expense',
-    category: 'Tech',
-    date: '2026-08-10',
-    time: '13:00',
-    icon: 'Laptop',
-  },
+// Clean initial state: 0 demo transactions
+export const INITIAL_TRANSACTIONS: Transaction[] = [];
+
+const DEFAULT_INSIGHTS: string[] = [
+  'Record your transactions to generate personalized AI wealth management insights.',
+  'Authorize your primary capital accounts in Profile to unlock portfolio tracking.',
+  'Discretionary expense management is ready. Log entries via voice or manual ledger.',
 ];
 
 const FinanceContext = createContext<FinanceContextType | undefined>(undefined);
@@ -119,10 +48,14 @@ const FinanceContext = createContext<FinanceContextType | undefined>(undefined);
 export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [transactions, setTransactions] = useState<Transaction[]>(() => {
     try {
+      // Purge old legacy demo data key if present
+      if (typeof window !== 'undefined' && localStorage.getItem(LEGACY_STORAGE_KEY)) {
+        localStorage.removeItem(LEGACY_STORAGE_KEY);
+      }
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed)) return parsed;
       }
     } catch (e) {
       console.warn('Failed to load transactions from localStorage:', e);
@@ -130,11 +63,7 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
     return INITIAL_TRANSACTIONS;
   });
 
-  const [insights, setInsights] = useState<string[]>([
-    'High liquidity detected; allocate 15% surplus capital to high-yield treasury instruments.',
-    'Discretionary lifestyle spending is disciplined; continue scaling venture equity tranches.',
-    'Maintain a 6-month prime liquidity buffer before committing to new angel rounds.',
-  ]);
+  const [insights, setInsights] = useState<string[]>(DEFAULT_INSIGHTS);
   const [isLoadingInsights, setIsLoadingInsights] = useState<boolean>(false);
 
   // Auto-sync all changes to window.localStorage
@@ -157,6 +86,17 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const deleteTransaction = useCallback((id: string) => {
     setTransactions((prev) => prev.filter((t) => t.id !== id));
+  }, []);
+
+  const clearAllTransactions = useCallback(() => {
+    setTransactions([]);
+    setInsights(DEFAULT_INSIGHTS);
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(LEGACY_STORAGE_KEY);
+    } catch (e) {
+      console.warn('Failed to clear storage:', e);
+    }
   }, []);
 
   // Total balance: all income - all expense
@@ -190,6 +130,8 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   // Growth logic: (currentMonthNet / |balanceAtStartOfMonth|) * 100
   const growthPercentage = useMemo(() => {
+    if (transactions.length === 0) return 0.0;
+
     const priorTransactions = transactions.filter((t) => !t.date.startsWith(currentYearMonth));
     const balanceAtStartOfMonth = priorTransactions.reduce((acc, t) => {
       return t.type === 'income' ? acc + t.amount : acc - t.amount;
@@ -197,7 +139,7 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
     const base = Math.abs(balanceAtStartOfMonth);
     if (base === 0) {
-      return currentMonthNet >= 0 ? 12.5 : -5.0; // Graceful default if initial month
+      return currentMonthNet > 0 ? 100.0 : (currentMonthNet < 0 ? -100.0 : 0.0);
     }
     return Number(((currentMonthNet / base) * 100).toFixed(1));
   }, [transactions, currentYearMonth, currentMonthNet]);
@@ -263,15 +205,12 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }).sort((a, b) => b.amount - a.amount);
   }, [transactions]);
 
-  // Recurring expense detection:
-  // "Compare new input with previous history. If a similar amount/title exists in the previous month, show a banner:
-  // 'This looks like a recurring monthly expense. Schedule it?'"
+  // Recurring expense detection
   const checkRecurringCandidate = useCallback((title: string, amount: number): boolean => {
     if (!title && (!amount || amount <= 0)) return false;
 
     const normalizedTitle = title.trim().toLowerCase();
 
-    // Check transactions in previous 45 days
     const past45Days = new Date();
     past45Days.setDate(past45Days.getDate() - 45);
 
@@ -288,6 +227,10 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
   }, [transactions]);
 
   const refreshInsights = useCallback(async (apiKey?: string) => {
+    if (transactions.length === 0) {
+      setInsights(DEFAULT_INSIGHTS);
+      return;
+    }
     setIsLoadingInsights(true);
     try {
       const res = await getFinancialInsights(transactions, apiKey);
@@ -305,6 +248,7 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
     transactions,
     addTransaction,
     deleteTransaction,
+    clearAllTransactions,
     totalBalance,
     currentMonthIncome,
     currentMonthExpense,

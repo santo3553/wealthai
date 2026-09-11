@@ -21,15 +21,22 @@ import { exportTransactionsToCsv } from '../../utils/csv';
 import { formatCurrency } from '../../utils/currency';
 
 export const ProfileScreen: React.FC = () => {
-  const { settings, updateSettings, addLinkedAccount, removeLinkedAccount, setApiKey } =
-    useAppSettings();
-  const { transactions, monthlyCashFlows } = useFinance();
+  const {
+    settings,
+    updateSettings,
+    addLinkedAccount,
+    removeLinkedAccount,
+    clearAllLinkedAccounts,
+    setApiKey,
+  } = useAppSettings();
+  const { transactions, monthlyCashFlows, clearAllTransactions } = useFinance();
 
   const [isHistoryExpanded, setIsHistoryExpanded] = useState(true);
   const [newAccountInput, setNewAccountInput] = useState('');
   const [showAddAccountInput, setShowAddAccountInput] = useState(false);
   const [apiKeyInput, setApiKeyInput] = useState(settings.apiKey || '');
   const [isApiKeySaved, setIsApiKeySaved] = useState(false);
+  const [isResetConfirmed, setIsResetConfirmed] = useState(false);
 
   // CSV Reporter trigger
   const handleExportCsv = () => {
@@ -132,37 +139,42 @@ export const ProfileScreen: React.FC = () => {
 
         {isHistoryExpanded && (
           <div className="p-4 pt-1 border-t border-white/10 space-y-4">
-            {monthlyCashFlows.map((flow) => {
-              const totalFlow = flow.income + flow.expense;
-              const savingsRatio =
-                flow.income > 0 ? Math.max(0, Math.min(100, Math.round((flow.net / flow.income) * 100))) : 0;
+            {monthlyCashFlows.every((f) => f.income === 0 && f.expense === 0) ? (
+              <p className="text-xs text-white/40 text-center py-3">
+                No monthly cash flow activity recorded yet. Authorize transactions to begin building your ledger.
+              </p>
+            ) : (
+              monthlyCashFlows.map((flow) => {
+                const savingsRatio =
+                  flow.income > 0 ? Math.max(0, Math.min(100, Math.round((flow.net / flow.income) * 100))) : 0;
 
-              return (
-                <div key={flow.month} className="space-y-1.5">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-white/80">{flow.month}</span>
-                    <span className="font-semibold text-emerald-400">
-                      +{formatCurrency(flow.net, settings.currency)} Net
-                    </span>
-                  </div>
+                return (
+                  <div key={flow.month} className="space-y-1.5">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-semibold text-white/80">{flow.month}</span>
+                      <span className="font-semibold text-emerald-400">
+                        +{formatCurrency(flow.net, settings.currency)} Net
+                      </span>
+                    </div>
 
-                  {/* Monthly Progress Bar */}
-                  <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden flex">
-                    <div
-                      className="h-full bg-gradient-to-r from-amber-400 to-emerald-400 transition-all duration-500 rounded-full"
-                      style={{ width: `${Math.max(5, savingsRatio)}%` }}
-                      title={`Savings rate: ${savingsRatio}%`}
-                    />
-                  </div>
+                    {/* Monthly Progress Bar */}
+                    <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden flex">
+                      <div
+                        className="h-full bg-gradient-to-r from-amber-400 to-emerald-400 transition-all duration-500 rounded-full"
+                        style={{ width: `${Math.max(5, savingsRatio)}%` }}
+                        title={`Savings rate: ${savingsRatio}%`}
+                      />
+                    </div>
 
-                  <div className="flex items-center justify-between text-[10px] text-white/40">
-                    <span>In: {formatCurrency(flow.income, settings.currency)}</span>
-                    <span>Out: {formatCurrency(flow.expense, settings.currency)}</span>
-                    <span className="text-amber-300/80 font-medium">{savingsRatio}% Saved</span>
+                    <div className="flex items-center justify-between text-[10px] text-white/40">
+                      <span>In: {formatCurrency(flow.income, settings.currency)}</span>
+                      <span>Out: {formatCurrency(flow.expense, settings.currency)}</span>
+                      <span className="text-amber-300/80 font-medium">{savingsRatio}% Saved</span>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
         )}
       </div>
@@ -314,25 +326,31 @@ export const ProfileScreen: React.FC = () => {
 
         {/* CRUD List */}
         <div className="space-y-2">
-          {settings.linkedAccounts.map((account, idx) => (
-            <div
-              key={idx}
-              className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition-all text-xs"
-            >
-              <div className="flex items-center gap-2.5 min-w-0">
-                <Building2 className="w-4 h-4 text-white/40 shrink-0" />
-                <span className="text-white/90 font-medium truncate">{account}</span>
-              </div>
-              <button
-                onClick={() => removeLinkedAccount(idx)}
-                className="p-1 rounded-lg text-white/30 hover:text-rose-400 hover:bg-rose-500/10 transition-colors shrink-0 ml-2"
-                title="Remove account"
-                aria-label="Remove account"
+          {settings.linkedAccounts.length === 0 ? (
+            <p className="text-xs text-white/40 text-center py-3 bg-white/5 rounded-xl border border-white/5">
+              No accounts linked yet. Tap "+ Link" above to connect an account.
+            </p>
+          ) : (
+            settings.linkedAccounts.map((account, idx) => (
+              <div
+                key={idx}
+                className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition-all text-xs"
               >
-                <Trash2 className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          ))}
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <Building2 className="w-4 h-4 text-white/40 shrink-0" />
+                  <span className="text-white/90 font-medium truncate">{account}</span>
+                </div>
+                <button
+                  onClick={() => removeLinkedAccount(idx)}
+                  className="p-1 rounded-lg text-white/30 hover:text-rose-400 hover:bg-rose-500/10 transition-colors shrink-0 ml-2"
+                  title="Remove account"
+                  aria-label="Remove account"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            ))
+          )}
         </div>
       </div>
 
@@ -380,6 +398,51 @@ export const ProfileScreen: React.FC = () => {
             </button>
           </div>
         </form>
+      </div>
+
+      {/* Ledger Administration & Data Reset */}
+      <div className="p-5 rounded-3xl glass-panel border border-white/10 space-y-3">
+        <h3 className="text-sm font-bold text-white tracking-wide">Data Administration</h3>
+        <p className="text-[11px] text-white/40 leading-relaxed">
+          Purge all locally stored transaction records, cached insights, and linked custodian accounts.
+        </p>
+
+        {isResetConfirmed ? (
+          <div className="p-3 rounded-2xl bg-rose-500/10 border border-rose-500/30 space-y-2">
+            <p className="text-xs text-rose-300 font-semibold">
+              Are you sure you want to clear all data? This action cannot be undone.
+            </p>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  clearAllTransactions();
+                  clearAllLinkedAccounts();
+                  setIsResetConfirmed(false);
+                }}
+                className="px-3 py-1.5 rounded-xl bg-rose-500 text-white font-bold text-xs shadow-sm hover:bg-rose-600"
+              >
+                Yes, Purge Everything
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsResetConfirmed(false)}
+                className="px-3 py-1.5 rounded-xl bg-white/10 text-white/70 text-xs hover:text-white"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setIsResetConfirmed(true)}
+            className="w-full py-2.5 rounded-xl border border-rose-500/30 text-rose-400 hover:bg-rose-500/10 font-bold text-xs transition-colors flex items-center justify-center gap-2"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            Clear All Demo / Ledger Data
+          </button>
+        )}
       </div>
     </div>
   );

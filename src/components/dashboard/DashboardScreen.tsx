@@ -41,11 +41,20 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
             </button>
           </div>
 
-          <div className="space-y-2.5">
-            {recentTransactions.map((tx) => (
-              <TransactionItem key={tx.id} transaction={tx} />
-            ))}
-          </div>
+          {recentTransactions.length === 0 ? (
+            <div className="p-6 rounded-3xl glass-panel border border-white/10 text-center">
+              <p className="text-xs font-semibold text-white/70">No transactions recorded yet</p>
+              <p className="text-[11px] text-white/40 mt-1">
+                Tap the gold + button below to authorize your first ledger entry
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-2.5">
+              {recentTransactions.map((tx) => (
+                <TransactionItem key={tx.id} transaction={tx} />
+              ))}
+            </div>
+          )}
         </section>
       </main>
     </div>

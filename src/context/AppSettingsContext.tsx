@@ -6,25 +6,24 @@ interface AppSettingsContextType {
   updateSettings: (partial: Partial<Settings>) => void;
   addLinkedAccount: (accountName: string) => void;
   removeLinkedAccount: (index: number) => void;
+  clearAllLinkedAccounts: () => void;
   setApiKey: (key: string) => void;
 }
 
-const STORAGE_KEY = 'wealthai_settings';
+const STORAGE_KEY = 'wealthai_settings_v2';
+const LEGACY_STORAGE_KEY = 'wealthai_settings';
 
+// Clean default settings with 0 demo linked accounts
 const DEFAULT_SETTINGS: Settings = {
   currency: 'USD',
   notificationsEnabled: true,
   darkMode: true,
   twoFactorAuth: true,
   biometricLogin: true,
-  linkedAccounts: [
-    'JPMorgan Private Client (Checking •••• 8492)',
-    'Goldman Sachs Marcus (High-Yield •••• 1047)',
-    'Morgan Stanley Wealth Desk (Investment •••• 3912)',
-  ],
+  linkedAccounts: [],
   apiKey: '',
-  userName: 'Santo',
-  userEmail: 'santo@wealthai.private',
+  userName: 'Client',
+  userEmail: 'client@wealthai.private',
 };
 
 const AppSettingsContext = createContext<AppSettingsContextType | undefined>(undefined);
@@ -32,6 +31,9 @@ const AppSettingsContext = createContext<AppSettingsContextType | undefined>(und
 export const AppSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [settings, setSettings] = useState<Settings>(() => {
     try {
+      if (typeof window !== 'undefined' && localStorage.getItem(LEGACY_STORAGE_KEY)) {
+        localStorage.removeItem(LEGACY_STORAGE_KEY);
+      }
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
@@ -71,6 +73,10 @@ export const AppSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ c
     }));
   }, []);
 
+  const clearAllLinkedAccounts = useCallback(() => {
+    setSettings((prev) => ({ ...prev, linkedAccounts: [] }));
+  }, []);
+
   const setApiKey = useCallback((key: string) => {
     setSettings((prev) => ({ ...prev, apiKey: key.trim() }));
   }, []);
@@ -82,6 +88,7 @@ export const AppSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ c
         updateSettings,
         addLinkedAccount,
         removeLinkedAccount,
+        clearAllLinkedAccounts,
         setApiKey,
       }}
     >
