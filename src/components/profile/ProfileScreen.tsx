@@ -56,25 +56,35 @@ export const ProfileScreen: React.FC = () => {
     <div className="pb-32 pt-6 px-6 max-w-md mx-auto space-y-6">
       {/* Header Profile Card */}
       <div className="p-6 rounded-3xl heavy-glass border border-white/15 relative overflow-hidden shadow-2xl">
-        <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-2xl p-[2px] bg-gradient-to-tr from-amber-400 via-orange-500 to-amber-200 shadow-xl shadow-amber-500/20 shrink-0">
-            <div className="w-full h-full rounded-2xl bg-[#120d0b] flex items-center justify-center border border-white/10">
-              <span className="font-serif font-bold text-2xl text-amber-300">
-                {settings.userName.charAt(0)}
-              </span>
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3.5 min-w-0">
+            <div className="w-14 h-14 rounded-2xl p-[2px] bg-gradient-to-tr from-amber-400 via-orange-500 to-amber-200 shadow-xl shadow-amber-500/20 shrink-0">
+              <div className="w-full h-full rounded-2xl bg-[#120d0b] flex items-center justify-center border border-white/10">
+                <span className="font-serif font-bold text-2xl text-amber-300">
+                  {settings.userName.charAt(0)}
+                </span>
+              </div>
+            </div>
+
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">
+                  Tier 1 Private Client
+                </span>
+              </div>
+              <h2 className="text-lg font-bold text-white tracking-tight mt-0.5 truncate">
+                {settings.userName}
+              </h2>
+              <p className="text-xs text-white/40 truncate">{settings.userEmail}</p>
             </div>
           </div>
 
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-1.5">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">
-                Tier 1 Private Client
-              </span>
-            </div>
-            <h2 className="text-xl font-bold text-white tracking-tight mt-1 truncate">
-              {settings.userName}
-            </h2>
-            <p className="text-xs text-white/40 truncate">{settings.userEmail}</p>
+          <div className="w-12 h-12 rounded-2xl p-[2px] bg-gradient-to-tr from-teal-400 via-cyan-400 to-amber-300 shadow-lg shadow-cyan-500/20 shrink-0">
+            <img
+              src="/logo-icon.png"
+              alt="WealthAI"
+              className="w-full h-full object-cover rounded-[14px]"
+            />
           </div>
         </div>
 
