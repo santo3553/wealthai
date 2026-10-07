@@ -6,9 +6,8 @@ import { Sparkles, Layers, ShieldCheck, Eye, Cpu, BatteryCharging, Zap } from 'l
 import Link from 'next/link';
 
 export function InteractiveShowcase() {
-  const [activeMode, setActiveMode] = useState<'inspect' | 'exploded' | 'condition'>('inspect');
+  const [activeMode, setActiveMode] = useState<'inspect' | 'exploded'>('inspect');
   const [activeColor, setActiveColor] = useState<string>('#8e8d89'); // Natural Titanium
-  const [conditionGrade, setConditionGrade] = useState<'PRISTINE' | 'GOOD' | 'FAIR'>('PRISTINE');
   const [explodeFactor, setExplodeFactor] = useState<number>(0);
 
   const colors = [
@@ -18,7 +17,7 @@ export function InteractiveShowcase() {
     { name: 'Desert Gold', hex: '#c5a07e', class: 'bg-[#c5a07e]' },
   ];
 
-  const handleModeChange = (mode: 'inspect' | 'exploded' | 'condition') => {
+  const handleModeChange = (mode: 'inspect' | 'exploded') => {
     setActiveMode(mode);
     if (mode === 'exploded') {
       setExplodeFactor(0.85);
@@ -57,39 +56,28 @@ export function InteractiveShowcase() {
             <label className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2.5 block">
               Inspection Mode
             </label>
-            <div className="grid grid-cols-3 gap-2 p-1.5 bg-zinc-900/90 rounded-2xl border border-zinc-800">
+            <div className="grid grid-cols-2 gap-2 p-1.5 bg-zinc-900/90 rounded-2xl border border-zinc-800">
               <button
                 onClick={() => handleModeChange('inspect')}
-                className={`flex flex-col items-center gap-1.5 py-2.5 px-2 rounded-xl text-xs font-semibold transition ${
+                className={`flex items-center justify-center gap-2 py-3 px-3 rounded-xl text-xs font-bold transition ${
                   activeMode === 'inspect'
                     ? 'bg-emerald-500 text-black shadow-lg shadow-emerald-500/20'
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
                 <Eye className="w-4 h-4" />
-                360° Orbit
+                360° Free Orbit
               </button>
               <button
                 onClick={() => handleModeChange('exploded')}
-                className={`flex flex-col items-center gap-1.5 py-2.5 px-2 rounded-xl text-xs font-semibold transition ${
+                className={`flex items-center justify-center gap-2 py-3 px-3 rounded-xl text-xs font-bold transition ${
                   activeMode === 'exploded'
                     ? 'bg-emerald-500 text-black shadow-lg shadow-emerald-500/20'
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
                 <Layers className="w-4 h-4" />
-                Exploded View
-              </button>
-              <button
-                onClick={() => handleModeChange('condition')}
-                className={`flex flex-col items-center gap-1.5 py-2.5 px-2 rounded-xl text-xs font-semibold transition ${
-                  activeMode === 'condition'
-                    ? 'bg-emerald-500 text-black shadow-lg shadow-emerald-500/20'
-                    : 'text-zinc-400 hover:text-white'
-                }`}
-              >
-                <ShieldCheck className="w-4 h-4" />
-                Grades
+                Exploded Diagnostics
               </button>
             </div>
           </div>
@@ -119,7 +107,7 @@ export function InteractiveShowcase() {
           </div>
 
           {/* Exploded Mode Slider (Conditional) */}
-          {activeMode === 'exploded' && (
+          {activeMode === 'exploded' ? (
             <div className="p-4 rounded-2xl bg-zinc-900/60 border border-emerald-500/30 animate-fadeIn">
               <div className="flex justify-between items-center text-xs font-semibold text-zinc-300 mb-2">
                 <span className="flex items-center gap-1.5 text-emerald-400">
@@ -151,77 +139,24 @@ export function InteractiveShowcase() {
                 </div>
               </div>
             </div>
-          )}
-
-          {/* Condition Grade Mode (Conditional) */}
-          {activeMode === 'condition' && (
-            <div className="flex flex-col gap-2.5 p-4 rounded-2xl bg-zinc-900/60 border border-emerald-500/30 animate-fadeIn">
-              <span className="text-xs font-bold text-zinc-300 uppercase tracking-wider">
-                Select Refurbished Grade:
+          ) : (
+            <div className="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex flex-col gap-2.5 text-xs">
+              <span className="font-bold text-white flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                Refurbished Guarantee Checklist
               </span>
-              <button
-                onClick={() => setConditionGrade('PRISTINE')}
-                className={`p-3 rounded-xl border text-left transition flex items-center justify-between ${
-                  conditionGrade === 'PRISTINE'
-                    ? 'border-emerald-500 bg-emerald-500/10 text-white'
-                    : 'border-zinc-800 text-zinc-400 hover:border-zinc-700'
-                }`}
-              >
-                <div>
-                  <div className="text-xs font-bold flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                    Pristine (Like New)
-                  </div>
-                  <div className="text-[11px] text-zinc-400 mt-0.5">
-                    0 blemishes. 100% cosmetic perfection.
-                  </div>
-                </div>
-                <span className="text-xs font-bold text-emerald-400">$799</span>
-              </button>
-
-              <button
-                onClick={() => setConditionGrade('GOOD')}
-                className={`p-3 rounded-xl border text-left transition flex items-center justify-between ${
-                  conditionGrade === 'GOOD'
-                    ? 'border-emerald-500 bg-emerald-500/10 text-white'
-                    : 'border-zinc-800 text-zinc-400 hover:border-zinc-700'
-                }`}
-              >
-                <div>
-                  <div className="text-xs font-bold flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-blue-400" />
-                    Good (Minor Wear)
-                  </div>
-                  <div className="text-[11px] text-zinc-400 mt-0.5">
-                    Light micro-scuff on frame edge. Screen immaculate.
-                  </div>
-                </div>
-                <span className="text-xs font-bold text-zinc-300">
-                  $729 <span className="text-[10px] text-emerald-400 font-normal">(-$70)</span>
-                </span>
-              </button>
-
-              <button
-                onClick={() => setConditionGrade('FAIR')}
-                className={`p-3 rounded-xl border text-left transition flex items-center justify-between ${
-                  conditionGrade === 'FAIR'
-                    ? 'border-emerald-500 bg-emerald-500/10 text-white'
-                    : 'border-zinc-800 text-zinc-400 hover:border-zinc-700'
-                }`}
-              >
-                <div>
-                  <div className="text-xs font-bold flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-amber-400" />
-                    Fair (Value Hero)
-                  </div>
-                  <div className="text-[11px] text-zinc-400 mt-0.5">
-                    Visible corner scuffs. 100% hardware certified.
-                  </div>
-                </div>
-                <span className="text-xs font-bold text-zinc-300">
-                  $649 <span className="text-[10px] text-emerald-400 font-normal">(-$150)</span>
-                </span>
-              </button>
+              <div className="flex items-center justify-between text-zinc-400">
+                <span>Display Touch Matrix</span>
+                <span className="text-emerald-400 font-semibold">100% OEM Tested</span>
+              </div>
+              <div className="flex items-center justify-between text-zinc-400">
+                <span>Battery Minimum Health</span>
+                <span className="text-emerald-400 font-semibold">≥ 90% Capacity</span>
+              </div>
+              <div className="flex items-center justify-between text-zinc-400">
+                <span>IMEI Clean Status</span>
+                <span className="text-emerald-400 font-semibold">100% Unlocked</span>
+              </div>
             </div>
           )}
 
@@ -258,7 +193,7 @@ export function InteractiveShowcase() {
           {/* Actual 3D Canvas */}
           <PhoneScene
             color={activeColor}
-            conditionGrade={conditionGrade}
+            conditionGrade="PRISTINE"
             explodeFactor={explodeFactor}
             enableOrbit={true}
             autoRotate={activeMode === 'inspect' && explodeFactor === 0}

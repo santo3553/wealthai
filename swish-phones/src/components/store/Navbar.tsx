@@ -30,7 +30,7 @@ export function Navbar({ cartCount = 0, onOpenCart }: NavbarProps) {
         </Link>
 
         {/* Center Navigation */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-300">
+        <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-zinc-300">
           <Link href="/#showcase" className="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
             <Sparkles className="w-4 h-4 text-emerald-400" />
             3D Studio
@@ -38,9 +38,12 @@ export function Navbar({ cartCount = 0, onOpenCart }: NavbarProps) {
           <Link href="/catalog" className="hover:text-white transition-colors">
             All Smartphones
           </Link>
-          <Link href="/#standards" className="hover:text-white transition-colors flex items-center gap-1.5">
+          <Link href="/#trade-in" className="hover:text-emerald-400 transition-colors">
+            Trade-In / Sell
+          </Link>
+          <Link href="/#verify-imei" className="hover:text-white transition-colors flex items-center gap-1.5">
             <ShieldCheck className="w-4 h-4 text-emerald-500" />
-            50-Point Certified
+            Verify IMEI
           </Link>
           <Link href="/track-order" className="hover:text-white transition-colors">
             Track Order

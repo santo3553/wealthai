@@ -10,3 +10,6 @@
 | 8 | Admin Operations Panel (Inventory & Data Entry Studio) | completed | Dashboard metrics, IMEI rapid data entry & status toggles |
 | 9 | Order Fulfillment Pipeline & Refurbishment Certificate | completed | Pipeline stages, carrier tracking & printable warranty |
 | 10 | End-to-End Verification & Production Build | completed | All 6 E2E tests passed & production build 15/15 routes ✓ |
+| 11 | Remove 3rd animated mode in showcase | completed | Streamlined to 360° Free Orbit & Exploded Diagnostics |
+| 12 | Build cool dynamic 3D animated WebGL background | completed | WebGL particle constellation, cyber rings & mouse parallax |
+| 13 | Add essential 2nd-hand customer services | completed | Trade-In calculator, IMEI verification lookup, Warranty claim |
