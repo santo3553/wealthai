@@ -1,10 +1,13 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { ensureDatabaseSeeded } from '@/lib/ensureSeed';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
   try {
+    await ensureDatabaseSeeded();
+
     const { searchParams } = new URL(request.url);
     const brand = searchParams.get('brand');
     const condition = searchParams.get('condition');

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { ensureDatabaseSeeded } from '@/lib/ensureSeed';
 import { z } from 'zod';
 
 export const dynamic = 'force-dynamic';
@@ -19,6 +20,7 @@ const createItemSchema = z.object({
 
 export async function GET(request: Request) {
   try {
+    await ensureDatabaseSeeded();
     const items = await prisma.deviceInventoryItem.findMany({
       include: { product: true },
       orderBy: { createdAt: 'desc' },
