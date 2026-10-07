@@ -1,8 +1,12 @@
 | id | task | status | notes |
 | --- | --- | --- | --- |
-| 1 | Explore project context and requirements | completed | Initial exploration complete |
-| 2 | Ask clarifying questions (one at a time) | completed | Requirements gathered: Direct store, Apple-style 3D, Next.js+Prisma, Full checkout |
-| 3 | Propose 2-3 architecture approaches | completed | Approach 1 selected (Three.js/Fiber + GSAP + Next.js Full-Stack) |
-| 4 | Present design sections and get approval | completed | All 3 design sections approved by user |
-| 5 | Write design doc | completed | Committed to docs/plans/2026-10-07-3d-used-smartphone-store-design.md |
-| 6 | Transition to implementation planning | completed | Implementation plan saved to docs/plans/2026-10-07-3d-used-smartphone-store.md |
+| 1 | Project Initialization & Dependency Setup | completed | Next.js 14, Three.js, R3F, GSAP, Tailwind configured |
+| 2 | Database Schema & Seed Data (Prisma Engine) | completed | SQLite db pushed, seeded with flagship phones and admin |
+| 3 | Security & Admin Authentication Layer | completed | Bcrypt, Jose JWT, rate limiting & middleware tested |
+| 4 | Interactive 3D Smartphone Canvas & PBR Shader Engine | in_progress | Building 3D phone mesh, exploded parts & condition shader |
+| 5 | Scroll-Driven Choreography & Hero Experience | pending | |
+| 6 | Storefront Catalog & Product Detail Experience | pending | |
+| 7 | Cart, Checkout & Public Order Tracking | pending | |
+| 8 | Admin Operations Panel (Inventory & Data Entry Studio) | pending | |
+| 9 | Order Fulfillment Pipeline & Refurbishment Certificate | pending | |
+| 10 | End-to-End Verification & Production Build | pending | |
