@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { useParams, useRouter } from 'next/navigation';
 import { CartProvider, useCart } from '@/context/CartContext';
 import { Navbar } from '@/components/store/Navbar';
 import { CartDrawer } from '@/components/cart/CartDrawer';
-import { PhoneScene } from '@/components/canvas/PhoneScene';
 import {
   Sparkles,
   ShieldCheck,
@@ -17,8 +17,25 @@ import {
   ArrowLeft,
   Truck,
   RotateCcw,
+  Camera,
+  Image as ImageIcon,
 } from 'lucide-react';
 import Link from 'next/link';
+
+const PhoneScene = dynamic(
+  () => import('@/components/canvas/PhoneScene').then((m) => m.PhoneScene),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-full flex items-center justify-center text-zinc-500 text-xs animate-pulse">
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin" />
+          <span>Loading 3D Phone Model...</span>
+        </div>
+      </div>
+    ),
+  }
+);
 
 function ProductDetailContent() {
   const params = useParams();
@@ -34,6 +51,8 @@ function ProductDetailContent() {
   const [selectedGrade, setSelectedGrade] = useState<'PRISTINE' | 'GOOD' | 'FAIR'>('PRISTINE');
   const [selectedStorage, setSelectedStorage] = useState('256GB');
   const [activeUnit, setActiveUnit] = useState<any>(null);
+  const [activeMediaTab, setActiveMediaTab] = useState<'3D' | 'PHOTOS'>('3D');
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
 
   useEffect(() => {
     async function loadProduct() {
@@ -137,50 +156,133 @@ function ProductDetailContent() {
         {/* Product Layout Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
-          {/* Left Column: 3D Studio Viewer */}
+          {/* Left Column: 3D Studio & Real Photos Viewer */}
           <div className="lg:col-span-7 rounded-3xl bg-zinc-950/80 border border-zinc-800 p-6 flex flex-col items-center relative overflow-hidden">
-            <div className="w-full flex justify-between items-center mb-4 z-10">
-              <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
-                Live 3D WebGL Inspection
-              </span>
-              <span className="text-xs text-zinc-400">Drag to rotate 360°</span>
-            </div>
+            {(() => {
+              let unitPhotos: string[] = [];
+              try {
+                unitPhotos = activeUnit?.imagesJson ? JSON.parse(activeUnit.imagesJson) : [];
+              } catch {}
 
-            {/* 3D Canvas */}
-            <div className="w-full h-[450px] sm:h-[550px] relative">
-              <PhoneScene
-                color={selectedColor}
-                conditionGrade={selectedGrade}
-                enableOrbit={true}
-                autoRotate={false}
-                scale={1.1}
-              />
-            </div>
+              return (
+                <>
+                  <div className="w-full flex justify-between items-center mb-4 z-10 flex-wrap gap-2">
+                    {/* Media Mode Tabs */}
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setActiveMediaTab('3D')}
+                        className={`text-[11px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border transition flex items-center gap-1.5 ${
+                          activeMediaTab === '3D'
+                            ? 'bg-emerald-500 text-black border-emerald-400 shadow-md shadow-emerald-500/20'
+                            : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-white'
+                        }`}
+                      >
+                        <Sparkles className="w-3.5 h-3.5" />
+                        Live 3D Inspection
+                      </button>
 
-            {/* Color Switcher Bar below 3D */}
-            <div className="mt-4 flex items-center gap-3 z-10">
-              <span className="text-xs text-zinc-400 font-medium">Chassis Finish:</span>
-              <div className="flex gap-2">
-                {[
-                  { hex: '#8e8d89', name: 'Natural Titanium' },
-                  { hex: '#2b2b2e', name: 'Space Black' },
-                  { hex: '#394452', name: 'Deep Blue' },
-                  { hex: '#c5a07e', name: 'Desert Gold' },
-                ].map((c) => (
-                  <button
-                    key={c.hex}
-                    onClick={() => setSelectedColor(c.hex)}
-                    style={{ backgroundColor: c.hex }}
-                    className={`w-7 h-7 rounded-full border-2 transition-transform ${
-                      selectedColor === c.hex
-                        ? 'border-emerald-400 scale-125'
-                        : 'border-zinc-700 hover:scale-110'
-                    }`}
-                    title={c.name}
-                  />
-                ))}
-              </div>
-            </div>
+                      {unitPhotos.length > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => setActiveMediaTab('PHOTOS')}
+                          className={`text-[11px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border transition flex items-center gap-1.5 ${
+                            activeMediaTab === 'PHOTOS'
+                              ? 'bg-emerald-500 text-black border-emerald-400 shadow-md shadow-emerald-500/20'
+                              : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-white'
+                          }`}
+                        >
+                          <Camera className="w-3.5 h-3.5" />
+                          Actual Photos ({unitPhotos.length})
+                        </button>
+                      )}
+                    </div>
+
+                    <span className="text-xs text-zinc-400">
+                      {activeMediaTab === '3D'
+                        ? 'Drag to rotate 360°'
+                        : `Photo ${selectedPhotoIndex + 1} of ${unitPhotos.length}`}
+                    </span>
+                  </div>
+
+                  {/* Media Content Area */}
+                  {activeMediaTab === '3D' ? (
+                    <>
+                      <div className="w-full h-[450px] sm:h-[550px] relative">
+                        <PhoneScene
+                          color={selectedColor}
+                          conditionGrade={selectedGrade}
+                          enableOrbit={true}
+                          autoRotate={false}
+                          scale={1.1}
+                        />
+                      </div>
+
+                      {/* Color Switcher Bar below 3D */}
+                      <div className="mt-4 flex items-center gap-3 z-10">
+                        <span className="text-xs text-zinc-400 font-medium">Chassis Finish:</span>
+                        <div className="flex gap-2">
+                          {[
+                            { hex: '#8e8d89', name: 'Natural Titanium' },
+                            { hex: '#2b2b2e', name: 'Space Black' },
+                            { hex: '#394452', name: 'Deep Blue' },
+                            { hex: '#c5a07e', name: 'Desert Gold' },
+                          ].map((c) => (
+                            <button
+                              key={c.hex}
+                              onClick={() => setSelectedColor(c.hex)}
+                              style={{ backgroundColor: c.hex }}
+                              className={`w-7 h-7 rounded-full border-2 transition-transform ${
+                                selectedColor === c.hex
+                                  ? 'border-emerald-400 scale-125'
+                                  : 'border-zinc-700 hover:scale-110'
+                              }`}
+                              title={c.name}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="w-full flex flex-col items-center gap-4 py-2">
+                      {/* Main Large Photo */}
+                      <div className="w-full h-[400px] sm:h-[480px] rounded-2xl bg-black border border-zinc-800 flex items-center justify-center overflow-hidden relative">
+                        <img
+                          src={unitPhotos[selectedPhotoIndex]}
+                          alt={`Actual unit ${activeUnit?.imeiOrSerial} photo`}
+                          className="max-w-full max-h-full object-contain"
+                        />
+                        <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/80 border border-zinc-700 text-zinc-300 text-xs font-mono">
+                          IMEI: {activeUnit?.imeiOrSerial}
+                        </div>
+                      </div>
+
+                      {/* Thumbnails row */}
+                      <div className="flex items-center gap-2 overflow-x-auto pb-1 max-w-full">
+                        {unitPhotos.map((photoUrl, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => setSelectedPhotoIndex(idx)}
+                            className={`w-16 h-16 rounded-xl overflow-hidden border-2 transition shrink-0 ${
+                              selectedPhotoIndex === idx
+                                ? 'border-emerald-500 scale-105'
+                                : 'border-zinc-800 opacity-60 hover:opacity-100'
+                            }`}
+                          >
+                            <img
+                              src={photoUrl}
+                              alt={`Unit thumbnail ${idx + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </>
+              );
+            })()}
           </div>
 
           {/* Right Column: Configuration & Purchase Box */}

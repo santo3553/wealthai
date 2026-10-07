@@ -38,6 +38,7 @@ model DeviceInventoryItem {
   salePrice       Float
   stockStatus     String   @default("AVAILABLE") // AVAILABLE, RESERVED, SOLD
   inspectionNotes String?
+  imagesJson      String?  // JSON array of device physical condition photos
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 

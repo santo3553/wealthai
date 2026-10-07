@@ -13,6 +13,8 @@ const createItemSchema = z.object({
   batteryHealth: z.number().min(50).max(100),
   salePrice: z.number().positive('Sale price must be greater than zero'),
   inspectionNotes: z.string().optional(),
+  images: z.array(z.string()).optional(),
+  imagesJson: z.string().optional(),
 });
 
 export async function GET(request: Request) {
@@ -69,6 +71,7 @@ export async function POST(request: Request) {
         batteryHealth: data.batteryHealth,
         salePrice: data.salePrice,
         inspectionNotes: data.inspectionNotes || 'Standard 50-point diagnostic certified.',
+        imagesJson: data.images ? JSON.stringify(data.images) : (data.imagesJson || '[]'),
         stockStatus: 'AVAILABLE',
       },
       include: { product: true },
@@ -84,7 +87,7 @@ export async function POST(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const body = await request.json();
-    const { id, stockStatus, salePrice } = body;
+    const { id, stockStatus, salePrice, images, imagesJson } = body;
 
     if (!id) {
       return NextResponse.json({ error: 'Item ID is required' }, { status: 400 });
@@ -95,6 +98,7 @@ export async function PATCH(request: Request) {
       data: {
         ...(stockStatus ? { stockStatus } : {}),
         ...(salePrice ? { salePrice: parseFloat(salePrice) } : {}),
+        ...(images ? { imagesJson: JSON.stringify(images) } : imagesJson ? { imagesJson } : {}),
       },
     });
 
