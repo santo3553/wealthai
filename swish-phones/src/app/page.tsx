@@ -47,31 +47,31 @@ function HomeContent() {
 
         {/* Catalog Banner CTA */}
         <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <div className="relative rounded-3xl bg-gradient-to-r from-emerald-950/60 via-zinc-900/90 to-zinc-950/90 border border-emerald-500/30 p-8 sm:p-12 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 backdrop-blur-xl">
+          <div className="relative rounded-3xl bg-gradient-to-r from-rose-950/50 via-purple-950/40 to-zinc-950/90 border border-rose-500/30 p-8 sm:p-12 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 backdrop-blur-xl shadow-2xl">
             <div className="flex flex-col gap-3 max-w-xl">
-              <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4" /> Ready to Upgrade?
+              <span className="text-xs font-bold text-rose-400 uppercase tracking-widest flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-rose-400" /> Ready to Upgrade?
               </span>
               <h3 className="text-3xl sm:text-4xl font-extrabold text-white">
                 Explore Every Available Certified Flagship
               </h3>
-              <p className="text-sm text-zinc-400">
+              <p className="text-sm text-zinc-300">
                 Browse serialized units by verified battery health, cosmetic grades, and clean IMEI tracking numbers.
               </p>
             </div>
 
             <Link
               href="/catalog"
-              className="px-8 py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-sm shadow-xl shadow-emerald-500/20 active:scale-95 transition flex items-center gap-2 shrink-0"
+              className="px-8 py-4 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-orange-500 hover:from-rose-400 hover:to-orange-400 text-white font-black text-sm shadow-xl shadow-rose-500/30 active:scale-95 transition flex items-center gap-2 shrink-0 glow-coral"
             >
               Open Store Catalog
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 text-white" />
             </Link>
           </div>
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-zinc-900/80 py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-zinc-500 text-xs flex flex-col sm:flex-row justify-between items-center gap-4">
+        <footer className="border-t border-rose-500/10 py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-zinc-500 text-xs flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
             <span className="font-bold text-zinc-300">SWISH Smartphones Inc.</span>
             <span>© 2026. All rights reserved.</span>
@@ -89,7 +89,7 @@ function HomeContent() {
             <Link href="/#verify-imei" className="hover:text-zinc-300 transition">
               Verify IMEI
             </Link>
-            <Link href="/admin" className="hover:text-emerald-400 transition">
+            <Link href="/admin" className="hover:text-rose-400 transition">
               Staff Portal
             </Link>
           </div>

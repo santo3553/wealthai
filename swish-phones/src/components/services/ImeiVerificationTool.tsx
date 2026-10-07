@@ -29,9 +29,9 @@ export function ImeiVerificationTool() {
   };
 
   return (
-    <section id="verify-imei" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-zinc-900">
+    <section id="verify-imei" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-rose-500/10">
       <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-3">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-bold uppercase tracking-wider mb-3">
           <ShieldCheck className="w-3.5 h-3.5" />
           Transparency & Fraud Prevention
         </div>
@@ -45,7 +45,7 @@ export function ImeiVerificationTool() {
 
       {/* Lookup Bar */}
       <div className="max-w-2xl mx-auto flex flex-col gap-3 mb-10">
-        <div className="flex gap-2 p-2 rounded-2xl bg-zinc-950 border border-zinc-800 shadow-xl">
+        <div className="flex gap-2 p-2 rounded-2xl bg-zinc-950 border border-zinc-800 focus-within:border-rose-500/50 shadow-xl transition">
           <div className="relative flex-1">
             <Search className="w-4 h-4 text-zinc-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
@@ -59,7 +59,7 @@ export function ImeiVerificationTool() {
           <button
             onClick={() => handleVerify(imei || '358921098471923')}
             disabled={loading}
-            className="px-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs uppercase tracking-wider transition active:scale-95 disabled:opacity-50 shrink-0"
+            className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 via-pink-500 to-orange-500 hover:from-rose-400 hover:to-orange-400 text-white font-black text-xs uppercase tracking-wider transition active:scale-95 disabled:opacity-50 shrink-0 shadow-lg shadow-rose-500/20"
           >
             {loading ? 'Scanning...' : 'Verify IMEI'}
           </button>
@@ -69,7 +69,7 @@ export function ImeiVerificationTool() {
           <span>Want a quick preview?</span>
           <button
             onClick={() => handleVerify('358921098471923')}
-            className="text-emerald-400 hover:underline font-medium"
+            className="text-rose-400 hover:text-rose-300 hover:underline font-semibold"
           >
             Test with Sample Certified IMEI #358921098471923
           </button>
@@ -78,7 +78,7 @@ export function ImeiVerificationTool() {
 
       {/* Verification Result Card */}
       {report && (
-        <div className="max-w-3xl mx-auto rounded-3xl bg-zinc-950 border border-emerald-500/40 p-6 sm:p-8 shadow-2xl relative overflow-hidden animate-fadeIn">
+        <div className="max-w-3xl mx-auto rounded-3xl bg-zinc-950/90 border border-rose-500/30 p-6 sm:p-8 shadow-2xl relative overflow-hidden backdrop-blur-xl animate-fadeIn">
           {/* Header */}
           <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 border-b border-zinc-800 pb-5">
             <div>
@@ -91,7 +91,7 @@ export function ImeiVerificationTool() {
               </span>
             </div>
 
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold w-fit">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-bold w-fit">
               <CheckCircle2 className="w-4 h-4" />
               100% Certified Authentic
             </div>
@@ -101,40 +101,40 @@ export function ImeiVerificationTool() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-6">
             <div className="p-3.5 rounded-xl bg-zinc-900/60 border border-zinc-800 flex flex-col gap-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> GSMA Blacklist Check
+                <ShieldCheck className="w-3.5 h-3.5 text-rose-400" /> GSMA Blacklist Check
               </span>
               <span className="text-xs font-bold text-white">{report.blacklistStatus}</span>
             </div>
 
             <div className="p-3.5 rounded-xl bg-zinc-900/60 border border-zinc-800 flex flex-col gap-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold flex items-center gap-1.5">
-                <LockOpen className="w-3.5 h-3.5 text-emerald-400" /> Carrier Unlock Status
+                <LockOpen className="w-3.5 h-3.5 text-purple-400" /> Carrier Unlock Status
               </span>
               <span className="text-xs font-bold text-white">{report.carrierStatus}</span>
             </div>
 
             <div className="p-3.5 rounded-xl bg-zinc-900/60 border border-zinc-800 flex flex-col gap-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold flex items-center gap-1.5">
-                <BatteryCharging className="w-3.5 h-3.5 text-emerald-400" /> Battery Health & Cycles
+                <BatteryCharging className="w-3.5 h-3.5 text-orange-400" /> Battery Health & Cycles
               </span>
-              <span className="text-xs font-bold text-emerald-400">{report.batteryHealth}</span>
+              <span className="text-xs font-bold text-orange-400">{report.batteryHealth}</span>
             </div>
 
             <div className="p-3.5 rounded-xl bg-zinc-900/60 border border-zinc-800 flex flex-col gap-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold flex items-center gap-1.5">
-                <Smartphone className="w-3.5 h-3.5 text-emerald-400" /> Screen & Touch Panel
+                <Smartphone className="w-3.5 h-3.5 text-pink-400" /> Screen & Touch Panel
               </span>
               <span className="text-xs font-bold text-white">{report.screenCertification}</span>
             </div>
           </div>
 
           {/* Footer note */}
-          <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300 flex items-center justify-between">
+          <div className="p-4 rounded-xl bg-rose-950/20 border border-rose-500/20 text-xs text-rose-200 flex items-center justify-between">
             <span className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <ShieldCheck className="w-4 h-4 text-rose-400" />
               {report.warrantyStatus}
             </span>
-            <span className="text-[10px] text-emerald-400 font-mono">
+            <span className="text-[10px] text-rose-400 font-mono">
               Certified: {report.certifiedDate}
             </span>
           </div>

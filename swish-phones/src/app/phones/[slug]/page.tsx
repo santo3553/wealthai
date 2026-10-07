@@ -29,7 +29,7 @@ const PhoneScene = dynamic(
     loading: () => (
       <div className="w-full h-full flex items-center justify-center text-zinc-500 text-xs animate-pulse">
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin" />
+          <div className="w-4 h-4 rounded-full border-2 border-rose-500 border-t-transparent animate-spin" />
           <span>Loading 3D Phone Model...</span>
         </div>
       </div>
@@ -114,9 +114,9 @@ function ProductDetailContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#09090b] flex items-center justify-center text-zinc-400">
+      <div className="min-h-screen bg-[#06070d] flex items-center justify-center text-zinc-400">
         <div className="flex items-center gap-3">
-          <div className="w-5 h-5 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin" />
+          <div className="w-5 h-5 rounded-full border-2 border-rose-500 border-t-transparent animate-spin" />
           <span>Loading 3D asset model...</span>
         </div>
       </div>
@@ -125,9 +125,9 @@ function ProductDetailContent() {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-[#09090b] flex flex-col items-center justify-center p-4">
+      <div className="min-h-screen bg-[#06070d] flex flex-col items-center justify-center p-4">
         <h2 className="text-xl font-bold text-white">Phone not found</h2>
-        <Link href="/catalog" className="mt-4 text-emerald-400 underline text-sm">
+        <Link href="/catalog" className="mt-4 text-rose-400 underline text-sm">
           Return to Catalog
         </Link>
       </div>
@@ -139,7 +139,7 @@ function ProductDetailContent() {
   const specs = JSON.parse(product.specsJson || '{}');
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-[#f4f4f5]">
+    <div className="min-h-screen bg-[#06070d] text-[#f4f4f5]">
       <Navbar cartCount={items.length} onOpenCart={() => setIsCartOpen(true)} />
       <CartDrawer />
 
@@ -172,13 +172,13 @@ function ProductDetailContent() {
                       <button
                         type="button"
                         onClick={() => setActiveMediaTab('3D')}
-                        className={`text-[11px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border transition flex items-center gap-1.5 ${
+                        className={`text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full border transition flex items-center gap-1.5 ${
                           activeMediaTab === '3D'
-                            ? 'bg-emerald-500 text-black border-emerald-400 shadow-md shadow-emerald-500/20'
-                            : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-white'
+                            ? 'bg-gradient-to-r from-rose-500 to-orange-500 text-white border-rose-400 shadow-md shadow-rose-500/25'
+                            : 'bg-zinc-900/90 text-zinc-400 border-zinc-800 hover:text-white'
                         }`}
                       >
-                        <Sparkles className="w-3.5 h-3.5" />
+                        <Sparkles className="w-3.5 h-3.5 text-orange-200" />
                         Live 3D Inspection
                       </button>
 
@@ -186,13 +186,13 @@ function ProductDetailContent() {
                         <button
                           type="button"
                           onClick={() => setActiveMediaTab('PHOTOS')}
-                          className={`text-[11px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border transition flex items-center gap-1.5 ${
+                          className={`text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full border transition flex items-center gap-1.5 ${
                             activeMediaTab === 'PHOTOS'
-                              ? 'bg-emerald-500 text-black border-emerald-400 shadow-md shadow-emerald-500/20'
-                              : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-white'
+                              ? 'bg-gradient-to-r from-rose-500 to-orange-500 text-white border-rose-400 shadow-md shadow-rose-500/25'
+                              : 'bg-zinc-900/90 text-zinc-400 border-zinc-800 hover:text-white'
                           }`}
                         >
-                          <Camera className="w-3.5 h-3.5" />
+                          <Camera className="w-3.5 h-3.5 text-orange-200" />
                           Actual Photos ({unitPhotos.length})
                         </button>
                       )}
@@ -234,7 +234,7 @@ function ProductDetailContent() {
                               style={{ backgroundColor: c.hex }}
                               className={`w-7 h-7 rounded-full border-2 transition-transform ${
                                 selectedColor === c.hex
-                                  ? 'border-emerald-400 scale-125'
+                                  ? 'border-rose-400 scale-125 ring-2 ring-rose-500/30'
                                   : 'border-zinc-700 hover:scale-110'
                               }`}
                               title={c.name}
@@ -266,7 +266,7 @@ function ProductDetailContent() {
                             onClick={() => setSelectedPhotoIndex(idx)}
                             className={`w-16 h-16 rounded-xl overflow-hidden border-2 transition shrink-0 ${
                               selectedPhotoIndex === idx
-                                ? 'border-emerald-500 scale-105'
+                                ? 'border-rose-500 scale-105 ring-2 ring-rose-500/30'
                                 : 'border-zinc-800 opacity-60 hover:opacity-100'
                             }`}
                           >
@@ -288,7 +288,7 @@ function ProductDetailContent() {
           {/* Right Column: Configuration & Purchase Box */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             <div>
-              <span className="text-xs font-black tracking-widest text-emerald-400 uppercase">
+              <span className="text-xs font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-orange-400 uppercase">
                 {product.brand}
               </span>
               <h1 className="text-3xl sm:text-4xl font-black text-white mt-1">
@@ -301,7 +301,7 @@ function ProductDetailContent() {
                 <span className="text-xs text-zinc-500 line-through">
                   ${(currentPrice * 1.45).toFixed(2)} retail
                 </span>
-                <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">
+                <span className="text-xs font-bold text-rose-400 bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded">
                   Save ~30%
                 </span>
               </div>
@@ -310,8 +310,8 @@ function ProductDetailContent() {
             {/* Refurbishment Health Metrics */}
             <div className="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
-                  <BatteryCharging className="w-5 h-5" />
+                <div className="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center shrink-0">
+                  <BatteryCharging className="w-5 h-5 text-orange-400" />
                 </div>
                 <div>
                   <div className="text-xs font-bold text-white">{currentBattery}% Battery</div>
@@ -320,8 +320,8 @@ function ProductDetailContent() {
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
-                  <ShieldCheck className="w-5 h-5" />
+                <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center shrink-0">
+                  <ShieldCheck className="w-5 h-5 text-purple-400" />
                 </div>
                 <div>
                   <div className="text-xs font-bold text-white">1-Year Warranty</div>
@@ -358,14 +358,14 @@ function ProductDetailContent() {
                     onClick={() => handleGradeChange(g.id as any)}
                     className={`p-3.5 rounded-xl border text-left transition flex flex-col gap-1 ${
                       selectedGrade === g.id
-                        ? 'border-emerald-500 bg-emerald-500/10'
+                        ? 'border-rose-500 bg-rose-500/10 ring-1 ring-rose-500/30'
                         : 'border-zinc-800 bg-zinc-900/40 text-zinc-400 hover:border-zinc-700'
                     }`}
                   >
                     <div className="flex justify-between items-center">
                       <span className="text-xs font-bold text-white">{g.title}</span>
                       {selectedGrade === g.id && (
-                        <CheckCircle className="w-4 h-4 text-emerald-400" />
+                        <CheckCircle className="w-4 h-4 text-rose-400" />
                       )}
                     </div>
                     <p className="text-[11px] text-zinc-400">{g.desc}</p>
@@ -386,7 +386,7 @@ function ProductDetailContent() {
                     onClick={() => setSelectedStorage(s)}
                     className={`py-2 px-3 rounded-xl border text-xs font-bold transition ${
                       selectedStorage === s
-                        ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400'
+                        ? 'border-rose-500 bg-rose-500/10 text-rose-400 ring-1 ring-rose-500/30'
                         : 'border-zinc-800 bg-zinc-900 text-zinc-400 hover:border-zinc-700'
                     }`}
                   >
@@ -400,18 +400,18 @@ function ProductDetailContent() {
             <div className="flex flex-col gap-3 pt-2">
               <button
                 onClick={handleAddToCart}
-                className="w-full py-4 px-6 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-sm shadow-xl shadow-emerald-500/25 active:scale-[0.99] transition flex items-center justify-center gap-2 group"
+                className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-rose-500 via-purple-600 to-orange-500 hover:from-rose-600 hover:via-purple-700 hover:to-orange-600 text-white font-extrabold text-sm shadow-xl shadow-rose-500/25 active:scale-[0.99] transition-all flex items-center justify-center gap-2 group"
               >
-                <ShoppingBag className="w-5 h-5 text-black" />
+                <ShoppingBag className="w-5 h-5 text-white" />
                 Add to Cart — ${currentPrice.toFixed(2)}
               </button>
 
               <div className="flex justify-between items-center text-xs text-zinc-400 pt-2 px-1">
                 <span className="flex items-center gap-1.5">
-                  <Truck className="w-3.5 h-3.5 text-emerald-400" /> Free Inspected Express Shipping
+                  <Truck className="w-3.5 h-3.5 text-rose-400" /> Free Inspected Express Shipping
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <RotateCcw className="w-3.5 h-3.5 text-emerald-400" /> 14-Day Free Returns
+                  <RotateCcw className="w-3.5 h-3.5 text-rose-400" /> 14-Day Free Returns
                 </span>
               </div>
             </div>

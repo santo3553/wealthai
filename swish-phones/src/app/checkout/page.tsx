@@ -68,14 +68,14 @@ function CheckoutContent() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-[#09090b] text-[#f4f4f5]">
+      <div className="min-h-screen bg-[#06070d] text-[#f4f4f5]">
         <Navbar cartCount={0} />
         <div className="max-w-md mx-auto pt-32 px-4 text-center">
           <h2 className="text-2xl font-bold text-white">Your cart is empty</h2>
           <p className="text-zinc-400 text-sm mt-2">Add a certified phone before checking out.</p>
           <Link
             href="/catalog"
-            className="mt-6 inline-block px-6 py-3 rounded-xl bg-emerald-500 text-black font-bold text-sm"
+            className="mt-6 inline-block px-6 py-3 rounded-xl bg-gradient-to-r from-rose-500 to-orange-500 text-white font-bold text-sm shadow-lg shadow-rose-500/25"
           >
             Browse Phones
           </Link>
@@ -85,7 +85,7 @@ function CheckoutContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-[#f4f4f5]">
+    <div className="min-h-screen bg-[#06070d] text-[#f4f4f5]">
       <Navbar cartCount={items.length} />
 
       <main className="pt-24 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -98,7 +98,7 @@ function CheckoutContent() {
         </Link>
 
         <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight mb-8">
-          Secure Certified Checkout
+          Secure Certified <span className="text-gradient-aurora">Checkout</span>
         </h1>
 
         <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -106,9 +106,9 @@ function CheckoutContent() {
           <div className="lg:col-span-7 flex flex-col gap-6">
             
             {/* Contact & Shipping */}
-            <div className="p-6 rounded-3xl bg-zinc-950 border border-zinc-800 flex flex-col gap-4">
+            <div className="p-6 rounded-3xl bg-zinc-950/80 border border-zinc-800 flex flex-col gap-4">
               <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <Lock className="w-4 h-4 text-emerald-400" />
+                <Lock className="w-4 h-4 text-rose-400" />
                 Shipping & Contact Information
               </h3>
 
@@ -129,7 +129,7 @@ function CheckoutContent() {
                     value={formData.customerName}
                     onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
                     placeholder="Alex Johnson"
-                    className="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-800 text-white text-sm focus:outline-none focus:border-emerald-500 transition"
+                    className="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-800 text-white text-sm focus:outline-none focus:border-rose-500 transition"
                   />
                 </div>
 
@@ -143,7 +143,7 @@ function CheckoutContent() {
                     value={formData.customerEmail}
                     onChange={(e) => setFormData({ ...formData, customerEmail: e.target.value })}
                     placeholder="alex@example.com"
-                    className="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-800 text-white text-sm focus:outline-none focus:border-emerald-500 transition"
+                    className="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-800 text-white text-sm focus:outline-none focus:border-rose-500 transition"
                   />
                 </div>
               </div>
@@ -158,7 +158,7 @@ function CheckoutContent() {
                   value={formData.customerPhone}
                   onChange={(e) => setFormData({ ...formData, customerPhone: e.target.value })}
                   placeholder="+1 (555) 234-5678"
-                  className="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-800 text-white text-sm focus:outline-none focus:border-emerald-500 transition"
+                  className="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-800 text-white text-sm focus:outline-none focus:border-rose-500 transition"
                 />
               </div>
 
@@ -172,15 +172,15 @@ function CheckoutContent() {
                   value={formData.shippingAddress}
                   onChange={(e) => setFormData({ ...formData, shippingAddress: e.target.value })}
                   placeholder="742 Evergreen Terrace, Apt 4B, Springfield, OR 97477"
-                  className="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-800 text-white text-sm focus:outline-none focus:border-emerald-500 transition"
+                  className="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-800 text-white text-sm focus:outline-none focus:border-rose-500 transition"
                 />
               </div>
             </div>
 
             {/* Payment Method Selector */}
-            <div className="p-6 rounded-3xl bg-zinc-950 border border-zinc-800 flex flex-col gap-4">
+            <div className="p-6 rounded-3xl bg-zinc-950/80 border border-zinc-800 flex flex-col gap-4">
               <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <CreditCard className="w-4 h-4 text-emerald-400" />
+                <CreditCard className="w-4 h-4 text-purple-400" />
                 Select Payment Method
               </h3>
 
@@ -212,7 +212,7 @@ function CheckoutContent() {
                       onClick={() => setFormData({ ...formData, paymentMethod: m.id as any })}
                       className={`p-4 rounded-2xl border flex items-start gap-4 cursor-pointer transition ${
                         formData.paymentMethod === m.id
-                          ? 'border-emerald-500 bg-emerald-500/10'
+                          ? 'border-rose-500 bg-rose-500/10 ring-1 ring-rose-500/30'
                           : 'border-zinc-800 bg-zinc-900/30 hover:border-zinc-700'
                       }`}
                     >
@@ -221,11 +221,11 @@ function CheckoutContent() {
                         name="paymentMethod"
                         checked={formData.paymentMethod === m.id}
                         onChange={() => {}}
-                        className="mt-1 accent-emerald-500"
+                        className="mt-1 accent-rose-500"
                       />
                       <div className="flex-1">
                         <div className="text-sm font-bold text-white flex items-center gap-2">
-                          <Icon className="w-4 h-4 text-emerald-400" />
+                          <Icon className="w-4 h-4 text-rose-400" />
                           {m.title}
                         </div>
                         <p className="text-xs text-zinc-400 mt-1">{m.desc}</p>
@@ -239,7 +239,7 @@ function CheckoutContent() {
 
           {/* Right Summary Column */}
           <div className="lg:col-span-5 flex flex-col gap-6">
-            <div className="p-6 rounded-3xl bg-zinc-950 border border-zinc-800 flex flex-col gap-4 sticky top-24">
+            <div className="p-6 rounded-3xl bg-zinc-950/80 border border-zinc-800 flex flex-col gap-4 sticky top-24">
               <h3 className="text-base font-bold text-white">Order Summary ({items.length} items)</h3>
 
               <div className="flex flex-col gap-3 divide-y divide-zinc-900 max-h-80 overflow-y-auto">
@@ -263,15 +263,15 @@ function CheckoutContent() {
                 </div>
                 <div className="flex justify-between text-zinc-400">
                   <span>50-Point Certified Inspection</span>
-                  <span className="text-emerald-400 font-bold">INCLUDED</span>
+                  <span className="text-rose-400 font-bold">INCLUDED</span>
                 </div>
                 <div className="flex justify-between text-zinc-400">
                   <span>Express Courier Shipping</span>
-                  <span className="text-emerald-400 font-bold">FREE</span>
+                  <span className="text-orange-400 font-bold">FREE</span>
                 </div>
                 <div className="flex justify-between text-base font-bold text-white pt-2 border-t border-zinc-800">
                   <span>Total Due</span>
-                  <span className="text-2xl font-black text-emerald-400">
+                  <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-orange-400">
                     ${totalAmount.toFixed(2)}
                   </span>
                 </div>
@@ -280,23 +280,23 @@ function CheckoutContent() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full mt-4 py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-sm shadow-xl shadow-emerald-500/25 active:scale-95 transition disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full mt-4 py-4 rounded-2xl bg-gradient-to-r from-rose-500 via-purple-600 to-orange-500 hover:from-rose-600 hover:via-purple-700 hover:to-orange-600 text-white font-extrabold text-sm shadow-xl shadow-rose-500/25 active:scale-95 transition disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {submitting ? (
                   <>
-                    <div className="w-4 h-4 rounded-full border-2 border-black border-t-transparent animate-spin" />
+                    <div className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
                     <span>Processing Order...</span>
                   </>
                 ) : (
                   <>
-                    <CheckCircle className="w-4 h-4 text-black" />
+                    <CheckCircle className="w-4 h-4 text-white" />
                     Place Certified Order
                   </>
                 )}
               </button>
 
               <div className="flex items-center justify-center gap-2 text-[11px] text-zinc-400 pt-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                <ShieldCheck className="w-3.5 h-3.5 text-rose-400" />
                 <span>Backed by 12-Month Refurbished Warranty</span>
               </div>
             </div>

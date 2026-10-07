@@ -37,18 +37,18 @@ export function CustomerProtectionSuite() {
   ];
 
   return (
-    <section id="faq-support" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-zinc-900">
+    <section id="faq-support" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-rose-500/10">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         {/* Left Column: Customer Guarantees & Support CTAs */}
         <div className="lg:col-span-5 flex flex-col gap-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider w-fit">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-bold uppercase tracking-wider w-fit">
             <HelpCircle className="w-3.5 h-3.5" />
             Buyer Protection Services
           </div>
 
           <h2 className="text-3xl font-black text-white tracking-tight">
             Comprehensive Customer <br />
-            <span className="text-gradient-emerald">Care & Warranty Coverage</span>
+            <span className="text-gradient-aurora">Care & Warranty Coverage</span>
           </h2>
 
           <p className="text-sm text-zinc-400 leading-relaxed">
@@ -58,14 +58,14 @@ export function CustomerProtectionSuite() {
           <div className="flex flex-col gap-3 pt-2">
             <button
               onClick={() => setShowWarrantyModal(true)}
-              className="p-4 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 text-left transition flex items-center justify-between group"
+              className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 hover:border-rose-500/40 text-left transition flex items-center justify-between group"
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center shrink-0">
                   <FileCheck className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">
+                  <div className="text-xs font-bold text-white group-hover:text-rose-400 transition-colors">
                     File a 1-Year Warranty Claim
                   </div>
                   <div className="text-[11px] text-zinc-400">
@@ -73,21 +73,21 @@ export function CustomerProtectionSuite() {
                   </div>
                 </div>
               </div>
-              <span className="text-xs text-emerald-400 font-bold">Submit &rarr;</span>
+              <span className="text-xs text-rose-400 font-bold">Submit &rarr;</span>
             </button>
 
             <a
               href="https://wa.me/15552345678"
               target="_blank"
               rel="noreferrer"
-              className="p-4 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 text-left transition flex items-center justify-between group"
+              className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 hover:border-purple-500/40 text-left transition flex items-center justify-between group"
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center shrink-0">
                   <MessageSquare className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">
+                  <div className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors">
                     Live WhatsApp Customer Specialist
                   </div>
                   <div className="text-[11px] text-zinc-400">
@@ -95,7 +95,7 @@ export function CustomerProtectionSuite() {
                   </div>
                 </div>
               </div>
-              <span className="text-xs text-emerald-400 font-bold">Chat Live &rarr;</span>
+              <span className="text-xs text-purple-400 font-bold">Chat Live &rarr;</span>
             </a>
           </div>
         </div>
@@ -113,12 +113,12 @@ export function CustomerProtectionSuite() {
             >
               <button
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                className="w-full p-4 text-left flex justify-between items-center text-xs font-bold text-white hover:text-emerald-400 transition"
+                className="w-full p-4 text-left flex justify-between items-center text-xs font-bold text-white hover:text-rose-400 transition"
               >
                 <span>{f.q}</span>
                 <ChevronDown
                   className={`w-4 h-4 text-zinc-400 transition-transform ${
-                    openFaq === i ? 'rotate-180 text-emerald-400' : ''
+                    openFaq === i ? 'rotate-180 text-rose-400' : ''
                   }`}
                 />
               </button>
@@ -141,10 +141,10 @@ export function CustomerProtectionSuite() {
             className="absolute inset-0 bg-black/80 backdrop-blur-sm"
           />
 
-          <div className="relative w-full max-w-md bg-zinc-950 border border-zinc-800 rounded-3xl p-6 z-10 flex flex-col gap-4">
+          <div className="relative w-full max-w-md bg-zinc-950 border border-zinc-800 rounded-3xl p-6 z-10 flex flex-col gap-4 shadow-2xl">
             <div className="flex justify-between items-center border-b border-zinc-800 pb-3">
               <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <FileCheck className="w-4 h-4 text-emerald-400" />
+                <FileCheck className="w-4 h-4 text-rose-400" />
                 12-Month Warranty Service Request
               </h3>
               <button
@@ -157,7 +157,7 @@ export function CustomerProtectionSuite() {
 
             {claimSubmitted ? (
               <div className="py-6 text-center flex flex-col items-center gap-3">
-                <CheckCircle2 className="w-12 h-12 text-emerald-400" />
+                <CheckCircle2 className="w-12 h-12 text-rose-400" />
                 <h4 className="text-sm font-bold text-white">Warranty Ticket Created!</h4>
                 <p className="text-xs text-zinc-400">
                   Our diagnostics support technician will email you a prepaid return shipping label within 2 business hours.
@@ -186,7 +186,7 @@ export function CustomerProtectionSuite() {
                     type="text"
                     required
                     placeholder="SW-2026-XXXX"
-                    className="w-full px-3 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-white font-mono focus:outline-none focus:border-emerald-500"
+                    className="w-full px-3 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-white font-mono focus:outline-none focus:border-rose-500"
                   />
                 </div>
 
@@ -198,7 +198,7 @@ export function CustomerProtectionSuite() {
                     type="text"
                     required
                     placeholder="358921098471923"
-                    className="w-full px-3 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-white font-mono focus:outline-none focus:border-emerald-500"
+                    className="w-full px-3 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-white font-mono focus:outline-none focus:border-rose-500"
                   />
                 </div>
 
@@ -210,13 +210,13 @@ export function CustomerProtectionSuite() {
                     rows={3}
                     required
                     placeholder="E.g., battery discharging faster than usual, camera sensor blur, audio glitch..."
-                    className="w-full px-3 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-white focus:outline-none focus:border-emerald-500"
+                    className="w-full px-3 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-white focus:outline-none focus:border-rose-500"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="mt-2 w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs uppercase tracking-wider transition"
+                  className="mt-2 w-full py-3 rounded-xl bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 hover:from-rose-400 hover:to-purple-500 text-white font-black text-xs uppercase tracking-wider transition shadow-lg shadow-rose-500/25"
                 >
                   Submit Warranty Ticket
                 </button>

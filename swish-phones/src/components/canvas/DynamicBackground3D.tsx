@@ -19,29 +19,38 @@ function ParticleGalaxy() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Generate 1500 particles with colors
+  // Generate 1400 particles with dual-chromatic Aurora Hyperpop palette
   const { positions, colors } = useMemo(() => {
-    const count = 1200;
+    const count = 1400;
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
 
-    const emerald = new THREE.Color('#10b981');
-    const cyan = new THREE.Color('#06b6d4');
-    const darkSlate = new THREE.Color('#334155');
+    const coral = new THREE.Color('#f43f5e');   // Sunset Coral
+    const peach = new THREE.Color('#f97316');   // Neon Peach
+    const aurora = new THREE.Color('#a855f7');  // Aurora Violet
+    const magenta = new THREE.Color('#ec4899'); // Electric Magenta
 
     for (let i = 0; i < count; i++) {
       // Cylindrical/spherical spread
-      const radius = 6 + Math.random() * 22;
+      const radius = 5 + Math.random() * 24;
       const theta = Math.random() * Math.PI * 2;
-      const y = (Math.random() - 0.5) * 24;
+      const y = (Math.random() - 0.5) * 26;
 
       positions[i * 3] = Math.cos(theta) * radius;
       positions[i * 3 + 1] = y;
       positions[i * 3 + 2] = Math.sin(theta) * radius;
 
-      // Color variation
+      // Color variation across Aurora palette
       const rand = Math.random();
-      const c = rand > 0.6 ? emerald : rand > 0.3 ? cyan : darkSlate;
+      const c =
+        rand > 0.75
+          ? coral
+          : rand > 0.5
+          ? peach
+          : rand > 0.25
+          ? aurora
+          : magenta;
+
       colors[i * 3] = c.r;
       colors[i * 3 + 1] = c.g;
       colors[i * 3 + 2] = c.b;
@@ -59,16 +68,16 @@ function ParticleGalaxy() {
 
     // Slow ambient rotation of galaxy
     if (pointsRef.current) {
-      pointsRef.current.rotation.y += delta * 0.04;
+      pointsRef.current.rotation.y += delta * 0.045;
       pointsRef.current.rotation.x =
-        mousePosition.current.y * 0.15 + Math.sin(state.clock.elapsedTime * 0.2) * 0.05;
-      pointsRef.current.position.x = mousePosition.current.x * 0.8;
+        mousePosition.current.y * 0.18 + Math.sin(state.clock.elapsedTime * 0.25) * 0.06;
+      pointsRef.current.position.x = mousePosition.current.x * 0.9;
     }
 
-    // Gentle floating tech rings
+    // Dynamic floating tech rings
     if (ringsRef.current) {
-      ringsRef.current.rotation.z += delta * 0.03;
-      ringsRef.current.rotation.y += delta * 0.05;
+      ringsRef.current.rotation.z += delta * 0.04;
+      ringsRef.current.rotation.y += delta * 0.06;
     }
   });
 
@@ -86,24 +95,28 @@ function ParticleGalaxy() {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.085}
+          size={0.09}
           vertexColors
           transparent
-          opacity={0.7}
+          opacity={0.8}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />
       </points>
 
-      {/* Floating Holographic Cyber Rings in deep space */}
+      {/* Floating Holographic Cyber Rings in Aurora tones */}
       <group ref={ringsRef} position={[0, -2, -10]}>
         <mesh rotation={[Math.PI / 3, 0, 0]}>
-          <torusGeometry args={[9, 0.02, 16, 80]} />
-          <meshBasicMaterial color="#10b981" transparent opacity={0.15} />
+          <torusGeometry args={[9, 0.025, 16, 90]} />
+          <meshBasicMaterial color="#f43f5e" transparent opacity={0.25} />
         </mesh>
         <mesh rotation={[-Math.PI / 4, Math.PI / 6, 0]}>
-          <torusGeometry args={[14, 0.015, 16, 90]} />
-          <meshBasicMaterial color="#06b6d4" transparent opacity={0.12} />
+          <torusGeometry args={[13, 0.02, 16, 100]} />
+          <meshBasicMaterial color="#a855f7" transparent opacity={0.22} />
+        </mesh>
+        <mesh rotation={[Math.PI / 6, -Math.PI / 4, 0]}>
+          <torusGeometry args={[16, 0.018, 16, 100]} />
+          <meshBasicMaterial color="#f97316" transparent opacity={0.18} />
         </mesh>
       </group>
     </>
@@ -112,10 +125,11 @@ function ParticleGalaxy() {
 
 export function DynamicBackground3D() {
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#09090b]">
-      {/* Deep Cyber Radial Gradients */}
-      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-emerald-600/10 rounded-full blur-[140px]" />
-      <div className="absolute bottom-0 right-1/4 w-[700px] h-[700px] bg-cyan-600/10 rounded-full blur-[160px]" />
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#06070d]">
+      {/* Gen-Z Aurora Hyperpop Ambient Glows */}
+      <div className="absolute top-0 left-1/4 w-[650px] h-[650px] bg-rose-600/12 rounded-full blur-[150px]" />
+      <div className="absolute bottom-0 right-1/4 w-[750px] h-[750px] bg-purple-600/15 rounded-full blur-[170px]" />
+      <div className="absolute top-1/3 right-10 w-[500px] h-[500px] bg-orange-500/10 rounded-full blur-[140px]" />
 
       {/* Interactive 3D WebGL Canvas */}
       <Canvas
@@ -123,7 +137,7 @@ export function DynamicBackground3D() {
         dpr={[1, 1.5]}
         gl={{ alpha: true, antialias: false, powerPreference: 'low-power' }}
       >
-        <fog attach="fog" args={['#09090b', 8, 26]} />
+        <fog attach="fog" args={['#06070d', 8, 28]} />
         <ParticleGalaxy />
       </Canvas>
     </div>
