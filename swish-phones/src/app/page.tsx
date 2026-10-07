@@ -5,7 +5,6 @@ import { CartProvider, useCart } from '@/context/CartContext';
 import { Navbar } from '@/components/store/Navbar';
 import { HeroSection } from '@/components/home/HeroSection';
 import { RefurbishedStandards } from '@/components/home/RefurbishedStandards';
-import { TradeInCalculator } from '@/components/services/TradeInCalculator';
 import { ImeiVerificationTool } from '@/components/services/ImeiVerificationTool';
 import { CustomerProtectionSuite } from '@/components/services/CustomerProtectionSuite';
 import { CartDrawer } from '@/components/cart/CartDrawer';
@@ -36,9 +35,6 @@ function HomeContent() {
 
         {/* Hero Section with Live Stats */}
         <HeroSection />
-
-        {/* Essential 2nd-Hand Service 1: Instant Trade-In Calculator */}
-        <TradeInCalculator />
 
         {/* 50-Point Diagnostic Refurbished Standards */}
         <RefurbishedStandards />
@@ -87,8 +83,8 @@ function HomeContent() {
             <Link href="/catalog" className="hover:text-zinc-300 transition">
               Catalog
             </Link>
-            <Link href="/#trade-in" className="hover:text-zinc-300 transition">
-              Trade-In Old Phone
+            <Link href="/#standards" className="hover:text-zinc-300 transition">
+              Quality Standards
             </Link>
             <Link href="/#verify-imei" className="hover:text-zinc-300 transition">
               Verify IMEI

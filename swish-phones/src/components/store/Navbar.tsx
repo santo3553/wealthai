@@ -35,8 +35,8 @@ export function Navbar({ cartCount = 0, onOpenCart }: NavbarProps) {
             <Sparkles className="w-4 h-4 text-emerald-400" />
             Shop Phones
           </Link>
-          <Link href="/#trade-in" className="hover:text-white transition-colors">
-            Trade-In / Sell
+          <Link href="/#standards" className="hover:text-white transition-colors">
+            Diagnostic Standards
           </Link>
           <Link href="/#verify-imei" className="hover:text-white transition-colors flex items-center gap-1.5">
             <ShieldCheck className="w-4 h-4 text-emerald-500" />

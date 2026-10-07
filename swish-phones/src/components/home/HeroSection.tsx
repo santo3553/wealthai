@@ -38,10 +38,10 @@ export function HeroSection() {
           <ArrowRight className="w-4 h-4 text-black group-hover:translate-x-1 transition-transform" />
         </Link>
         <Link
-          href="#trade-in"
+          href="#verify-imei"
           className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-zinc-900/80 hover:bg-zinc-800 text-white font-semibold text-base border border-zinc-800 hover:border-zinc-700 transition-all flex items-center justify-center gap-2"
         >
-          Trade-In Old Phone
+          Verify Phone IMEI
         </Link>
       </div>
 
