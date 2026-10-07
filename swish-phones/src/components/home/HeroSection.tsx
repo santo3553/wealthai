@@ -24,24 +24,24 @@ export function HeroSection() {
       {/* Subtitle */}
       <p className="mt-6 text-lg sm:text-xl text-zinc-400 max-w-2xl font-normal leading-relaxed">
         Save up to <strong className="text-white font-bold">50% off retail</strong> on premium second-hand smartphones. 
-        Zero hidden scratches. Test internal diagnostics in real-time 3D before delivery.
+        100% genuine OEM components, verified GSMA clean IMEI, and 12-month full warranty protection.
       </p>
 
       {/* CTAs */}
       <div className="mt-10 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
         <Link
-          href="#showcase"
+          href="/catalog"
           className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-base shadow-xl shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 group"
         >
           <Sparkles className="w-5 h-5 text-black" />
-          Launch 3D Inspection Lab
+          Explore Certified Phones
           <ArrowRight className="w-4 h-4 text-black group-hover:translate-x-1 transition-transform" />
         </Link>
         <Link
-          href="/catalog"
+          href="#trade-in"
           className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-zinc-900/80 hover:bg-zinc-800 text-white font-semibold text-base border border-zinc-800 hover:border-zinc-700 transition-all flex items-center justify-center gap-2"
         >
-          Browse All Phones
+          Trade-In Old Phone
         </Link>
       </div>
 

@@ -1,18 +1,22 @@
 'use client';
 
-import React from 'react';
+import dynamic from 'next/dynamic';
 import { CartProvider, useCart } from '@/context/CartContext';
 import { Navbar } from '@/components/store/Navbar';
 import { HeroSection } from '@/components/home/HeroSection';
-import { InteractiveShowcase } from '@/components/home/InteractiveShowcase';
 import { RefurbishedStandards } from '@/components/home/RefurbishedStandards';
 import { TradeInCalculator } from '@/components/services/TradeInCalculator';
 import { ImeiVerificationTool } from '@/components/services/ImeiVerificationTool';
 import { CustomerProtectionSuite } from '@/components/services/CustomerProtectionSuite';
-import { DynamicBackground3D } from '@/components/canvas/DynamicBackground3D';
 import { CartDrawer } from '@/components/cart/CartDrawer';
 import Link from 'next/link';
 import { Sparkles, ArrowRight, ShieldCheck, RefreshCw } from 'lucide-react';
+
+const DynamicBackground3D = dynamic(
+  () => import('@/components/canvas/DynamicBackground3D').then((m) => m.DynamicBackground3D),
+  { ssr: false }
+);
+
 
 function HomeContent() {
   const { items, setIsCartOpen } = useCart();
@@ -32,9 +36,6 @@ function HomeContent() {
 
         {/* Hero Section with Live Stats */}
         <HeroSection />
-
-        {/* Interactive 3D Phone Studio Showcase (Orbit & Exploded modes) */}
-        <InteractiveShowcase />
 
         {/* Essential 2nd-Hand Service 1: Instant Trade-In Calculator */}
         <TradeInCalculator />
