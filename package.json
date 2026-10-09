@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@capacitor/android": "^8.5.1",
-    "@capacitor/cli": "^8.5.1",
+    "@capacitor/cli": "^8.4.3",
     "@capacitor/core": "^8.5.1",
     "@google/generative-ai": "^0.24.0",
     "clsx": "^2.1.1",
